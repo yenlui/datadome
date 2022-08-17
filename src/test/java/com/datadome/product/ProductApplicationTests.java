@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Collection;
 import lombok.Setter;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.internal.util.io.IOUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,14 @@ class ProductApplicationTests {
   @Setter(onMethod = @__({ @Autowired }))
   private DetectionReport detectionReport;
 
+  private File targetRun;
+
+  @BeforeEach
+  public void cleanFolder() throws IOException {
+    targetRun = new File("./target/run");
+    FileUtils.deleteDirectory(targetRun);
+  }
+
   @Test
   void sendRequests() throws IOException {
     URL testFileResource =
@@ -31,6 +41,6 @@ class ProductApplicationTests {
       .filter(StringUtils::isNotBlank)
       .forEach(entryPoint::handleAccessLog);
 
-    detectionReport.saveCsvReport(new File("./target/run"));
+    detectionReport.saveCsvReport(targetRun);
   }
 }

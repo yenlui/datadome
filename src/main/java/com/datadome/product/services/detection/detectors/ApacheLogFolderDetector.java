@@ -17,7 +17,7 @@ public class ApacheLogFolderDetector implements IDetector {
       return SimpleDetectionResult
         .builder()
         .host(accessLog.request().host())
-        .reason("Should not try to access this folder")
+        .reason("Try to access restricted folder")
         .build();
     }
 
