@@ -21,7 +21,7 @@ public class ParseLogService {
    * Regex : ^([\d.]+) (\S+) (\S+) \[([\w:/]+\s[+-]\d{4})\] \"(.+?)\" (\d+) (\d+) \"(.+?)\" \"(.+?)\"
    */
   private static String LOG_PARSER_REGEX =
-    "^([\\d.]+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+-]\\d{4})\\] \\\"(.+?)\\\" (\\d+) (\\d+) \\\"(.+?)\\\" \\\"(.+?)\\\"";
+    "^([\\d.]+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+-]\\d{4})\\] \\\"(.+?)\\\" (\\d+) (-|\\d+) \\\"(.+?)\\\" \\\"(.+?)\\\"";
 
   @Setter(onMethod = @__({ @Autowired }))
   private AccessLogDateService accessLogDateService;
@@ -75,10 +75,14 @@ public class ParseLogService {
   }
 
   private Response buildResponse(Matcher matcher) {
+    long size = "-".equals(matcher.group(7))
+      ? 0
+      : Long.parseLong(matcher.group(7));
+
     return Response
       .builder()
       .statusCode(Integer.parseInt(matcher.group(6)))
-      .size(Long.parseLong(matcher.group(7)))
+      .size(size)
       .build();
   }
 }
