@@ -1,15 +1,8 @@
 package com.datadome.product.apache;
 
-import lombok.Builder;
-import lombok.Data;
 import org.springframework.http.HttpMethod;
 
-@Data
+import lombok.Builder;
+
 @Builder
-public class Query {
-  private HttpMethod method;
-
-  private String query;
-
-  private String protocol;
-}
+public record Query(HttpMethod method, String query,String protocol){}

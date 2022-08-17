@@ -1,14 +1,12 @@
 package com.datadome.product.apache;
 
 import lombok.Builder;
-import lombok.Data;
 
 /**
  * ApacheLog
  */
-@Data
 @Builder
-public class AccessLog {
+public record AccessLog(Request request,Response response,String sourceLine) {
   /*
      * %h is the remote host (ie the client IP)
 %l is the identity of the user determined by identd (not usually used since not reliable)
@@ -22,9 +20,4 @@ User-agent is the browser identification string.
      * 
      */
 
-  private Request request;
-
-  private Response response;
-
-  private String sourceLine;
 }

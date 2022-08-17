@@ -12,15 +12,11 @@ public class ApacheLogFolderDetector implements IDetector {
   @Override
   public DetectionResult detect(AccessLog accessLog) {
     if (
-      accessLog
-        .getRequest()
-        .getQuery()
-        .getQuery()
-        .contains("/apache-log/access.log")
+      accessLog.request().query().query().contains("/apache-log/access.log")
     ) {
       return SimpleDetectionResult
         .builder()
-        .host(accessLog.getRequest().getHost())
+        .host(accessLog.request().host())
         .reason("Should not try to access this folder")
         .build();
     }
