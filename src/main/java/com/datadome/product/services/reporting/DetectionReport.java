@@ -71,4 +71,8 @@ public class DetectionReport {
   private String buildLine(Host host, String reason, Long hits) {
     return String.join(SEPARATOR, host.toString(), reason, Long.toString(hits));
   }
+
+  public boolean containsDetectionsFor(Host host) {
+    return detections.containsKey(host);
+  }
 }

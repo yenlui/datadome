@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 public class CoolDownDetector implements IDetector {
   private static final int COOL_DOWN_VALUE = 1000;
   private static final int COOL_DOWN_WITHDRAW = -3 * COOL_DOWN_VALUE;
-  private static final int COOL_DOWN_TRIGGER = 5 * COOL_DOWN_VALUE;
+  private static final int COOL_DOWN_TRIGGER = 10 * COOL_DOWN_VALUE;
 
   @Setter(onMethod = @__({ @Autowired }))
   private DetectionReport detectionReport;
