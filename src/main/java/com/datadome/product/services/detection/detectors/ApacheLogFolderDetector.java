@@ -1,26 +1,34 @@
 package com.datadome.product.services.detection.detectors;
 
 import com.datadome.product.apache.AccessLog;
-import com.datadome.product.services.detection.DetectionResult;
 import com.datadome.product.services.detection.IDetector;
-import com.datadome.product.services.detection.detection.SimpleDetectionResult;
+import com.datadome.product.services.reporting.DetectionReport;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ApacheLogFolderDetector implements IDetector {
+  @Setter(onMethod = @__({ @Autowired }))
+  private DetectionReport detectionReport;
 
   @Override
-  public DetectionResult detect(AccessLog accessLog) {
+  public boolean detect(AccessLog accessLog) {
     if (
-      accessLog.request().query().query().contains("/apache-log/access.log")
+      accessLog
+        .request()
+        .query()
+        .uri()
+        .getPath()
+        .contains("/apache-log/access.log")
     ) {
-      return SimpleDetectionResult
-        .builder()
-        .host(accessLog.request().host())
-        .reason("Try to access restricted folder")
-        .build();
+      detectionReport.addDetection(
+        accessLog.request().host(),
+        "Try to access restricted folder"
+      );
+      return true;
     }
 
-    return null;
+    return false;
   }
 }

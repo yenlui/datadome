@@ -4,5 +4,10 @@ import com.datadome.product.apache.AccessLog;
 
 @FunctionalInterface
 public interface IDetector {
-  DetectionResult detect(AccessLog accessLog);
+  /**
+   * Apply a specific rule in order to detect potential threat
+   * @param accessLog
+   * @return true if detection is blocking
+   */
+  boolean detect(AccessLog accessLog);
 }

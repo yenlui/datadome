@@ -1,7 +1,6 @@
 package com.datadome.product.services.reporting;
 
 import com.datadome.product.apache.Host;
-import com.datadome.product.services.detection.DetectionResult;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
@@ -18,15 +17,15 @@ public class DetectionReport {
   private static final String SEPARATOR = ",";
   private Map<Host, Map<String, Long>> detections = new HashMap<>();
 
-  public void addDetection(DetectionResult detectionResult) {
-    Map<String, Long> reasons = detections.getOrDefault(
-      detectionResult.getHost(),
-      new HashMap<>()
-    );
-    detections.putIfAbsent(detectionResult.getHost(), reasons);
+  public void addDetection(Host host, String reason) {
+    // Host host = detectionResult.getHost();
+    // String reason = detectionResult.getReason();
 
-    Long hitCount = reasons.getOrDefault(detectionResult.getReason(), 0L);
-    reasons.put(detectionResult.getReason(), hitCount + 1);
+    Map<String, Long> reasons = detections.getOrDefault(host, new HashMap<>());
+    detections.putIfAbsent(host, reasons);
+
+    Long hitCount = reasons.getOrDefault(reason, 0L);
+    reasons.put(reason, hitCount + 1);
   }
 
   public void saveCsvReport(File targetFolder) {

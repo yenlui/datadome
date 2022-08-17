@@ -1,6 +1,7 @@
 package com.datadome.product.services.parsing;
 
 import com.datadome.product.apache.Query;
+import java.net.URI;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class QueryService {
     return Query
       .builder()
       .method(HttpMethod.valueOf(matcher.group(1)))
-      .query(matcher.group(2))
+      .uri(URI.create(matcher.group(2)))
       .protocol(matcher.group(3))
       .build();
   }

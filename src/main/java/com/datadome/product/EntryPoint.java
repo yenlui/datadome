@@ -15,8 +15,15 @@ public class EntryPoint {
   @Setter(onMethod = @__({ @Autowired }))
   private DetectionService detectionService;
 
-  public void handleAccessLog(String accessLogLine) {
+  /**
+   *
+   * @param accessLogLine
+   * @return true if access should be granted
+   */
+  public boolean handleAccessLog(String accessLogLine) {
     AccessLog accessLog = parseService.parseAccessLog(accessLogLine);
-    detectionService.processAccessLog(accessLog);
+    return accessLog == null
+      ? true // fall back case, accessLogLine wasn't parsed properly
+      : !detectionService.processAccessLog(accessLog);
   }
 }
