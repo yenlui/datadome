@@ -18,11 +18,11 @@ import org.springframework.stereotype.Service;
 public class ParseLogService {
   /**
    * Test regex here: https://regex101.com/
-   * Regex : ^([\d.]+) (\S+) (\S+) \[([\w:/]+\s[+-]\d{4})\] \"(.+?)\" (\d+) (\d+) \"(.+?)\" \"(.+?)\"
+   * Regex : ^([\d.]+) (\S+) (\S+) \[([\w:/]+\s[+-]\d{4})\] \"(.+?)\" (\d+) (\d+) \"(.*?)\" \"(.+?)\"
    */
   private static String LOG_PARSER_REGEX =
     //"^(\\S+)";
-    "^(\\S+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+-]\\d{4})\\] \\\"(.+?)\\\" (\\d+) (-|\\d+) \\\"(.+?)\\\" \\\"(.+?)\\\" \\\"(.+?)\\\"";
+    "^(\\S+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+-]\\d{4})\\] \\\"(.+?)\\\" (\\d+) (-|\\d+) \\\"(.*?)\\\" \\\"(.+?)\\\" \\\"(.+?)\\\"";
 
   @Setter(onMethod = @__({ @Autowired }))
   private AccessLogDateService accessLogDateService;
