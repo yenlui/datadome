@@ -31,6 +31,8 @@ class ProductApplicationTests {
 
   private List<Host> soundsLikeGoodGuys;
 
+  private List<Host> soundsLikeBadGuys;
+
   @BeforeEach
   public void cleanFolder() throws IOException {
     targetRun = new File("./target/run");
@@ -38,6 +40,12 @@ class ProductApplicationTests {
 
     soundsLikeGoodGuys =
       List.of(Host.of("81.5.193.243"), Host.of("91.114.166.95"));
+    soundsLikeBadGuys =
+      List.of(
+        Host.of("193.106.31.130"),
+        Host.of("145.219.89.34.bc.googleusercontent.com"),
+        Host.of("5.176.255.173.unassigned.as54203.net")
+      );
   }
 
   @Test
@@ -55,7 +63,15 @@ class ProductApplicationTests {
     for (Host goodGuy : soundsLikeGoodGuys) {
       Assertions
         .assertThat(detectionReport.containsDetectionsFor(goodGuy))
+        .as("%s should be a good guy", goodGuy)
         .isFalse();
+    }
+
+    for (Host badGuy : soundsLikeBadGuys) {
+      Assertions
+        .assertThat(detectionReport.containsDetectionsFor(badGuy))
+        .as("%s should be a bad guy", badGuy)
+        .isTrue();
     }
 
     detectionReport.saveCsvReport(targetRun);

@@ -21,7 +21,8 @@ public class ParseLogService {
    * Regex : ^([\d.]+) (\S+) (\S+) \[([\w:/]+\s[+-]\d{4})\] \"(.+?)\" (\d+) (\d+) \"(.+?)\" \"(.+?)\"
    */
   private static String LOG_PARSER_REGEX =
-    "^([\\d.]+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+-]\\d{4})\\] \\\"(.+?)\\\" (\\d+) (-|\\d+) \\\"(.+?)\\\" \\\"(.+?)\\\"";
+    //"^(\\S+)";
+    "^(\\S+) (\\S+) (\\S+) \\[([\\w:/]+\\s[+-]\\d{4})\\] \\\"(.+?)\\\" (\\d+) (-|\\d+) \\\"(.+?)\\\" \\\"(.+?)\\\" \\\"(.+?)\\\"";
 
   @Setter(onMethod = @__({ @Autowired }))
   private AccessLogDateService accessLogDateService;
@@ -45,8 +46,9 @@ public class ParseLogService {
     try {
       Matcher matcher = pattern.matcher(accessLogLine);
 
-      if (!matcher.matches()) log.debug(matcher.toString());
-
+      if (!matcher.matches()) {
+        throw new IllegalArgumentException();
+      }
       return this.buildApacheLog(matcher, accessLogLine);
     } catch (Exception exception) {
       log.error(String.format("Cannot parse: %s", accessLogLine), exception);
